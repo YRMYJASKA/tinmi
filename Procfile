@@ -1,1 +1,1 @@
-web: gunicorn tinmi.wsgi
+web: gunicorn tinmi.wsgi --log-file -
