@@ -79,14 +79,7 @@ WSGI_APPLICATION = 'tinmi.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tinmi',
-        'USER': 'name',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
+    'default': dj_database_url.config(conn_max_age=500, ssl_require=True),
 }
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -116,7 +109,7 @@ USE_TZ = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -136,9 +129,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Activate Django-Heroku.
 django_heroku.settings(locals())
 
-# Connect to a database if one is supplied
-db_from_env = dj_database_url.config(conn_max_age=500, ssl_require=True)
-DATABASES['default'] = db_from_env
 
 # If the app is run locally then import local settings
 try:
