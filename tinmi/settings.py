@@ -30,6 +30,8 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = [
+    'chat',
+    'tinmi',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -110,6 +112,8 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
 ALLOWED_HOSTS = []
+
+AUTH_USER_MODEL='chat.Tinmiuser'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
