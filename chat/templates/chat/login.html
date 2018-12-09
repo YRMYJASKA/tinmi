@@ -1,0 +1,25 @@
+{% extends 'chat/base.html' %}
+
+{%block title%}
+login | tinmi
+{%endblock%}
+
+{%block content%}
+<div class="centered">
+<h1>login</h1>
+{%if form.errors%}
+<p id="form-error" class="errortext">password and username do not match</p>
+{%endif%}
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+    <p>username</p>
+    <p>{{ form.username }}</p>
+    <p>password</p>
+    <p>{{ form.password }}</p>
+
+	<p class="helptext"><a href="{%url 'signup'%}">sign up</a></p>
+<input type="submit" value="login">
+<input type="hidden" name="next" value="{{ next }}">
+</form>
+</div>
+{%endblock%}

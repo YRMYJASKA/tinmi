@@ -1,0 +1,28 @@
+{% extends 'chat/base.html' %}
+
+{%block title%}
+sign up | tinmi
+{%endblock%}
+
+{%block content%}
+<div class="centered" id="signup-div">
+	<h1>sign up</h1>
+<form method="POST">
+	{% for error in field.errors %}
+	<p class="errortext" id="form-error">{{ error }}</p>
+	{% endfor %}
+	{%csrf_token%}
+	{% for field in form %}
+		<div class="form-field">
+			<p>{{ field.label_tag }} 
+			{{field}}</p>
+		</div>
+		{% if field.help_text %}
+		  <small class="helptext">{{ field.help_text }}</small>
+		{% endif %}
+	{% endfor %}
+		<p class="helptext"><a href="{%url 'login'%}">login</a></p>
+	<button type="submit">sign up</button>
+</form>
+</div>
+{%endblock%}

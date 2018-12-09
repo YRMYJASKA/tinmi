@@ -30,6 +30,7 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'chat',
     'tinmi',
     'django.contrib.admin',
@@ -132,6 +133,19 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+ASGI_APPLICATION = 'tinmi.routing.application'
+CHANNEL_LAYERS = {
+        'default':{
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                "hosts": [('127.0.0.1', 6379)],
+                }
+            },
+        }
+
+LOGIN_URL = '/a/login'
+LOGIN_REDIRECT_URL = '/'
 
 
 # If the app is run locally then import local settings

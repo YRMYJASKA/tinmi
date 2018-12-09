@@ -1,9 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+
 from . import models
+from .forms import TinmiuserChangeForm, TinmiuserCreationForm 
 
-admin.site.register(models.Tinmiuser, UserAdmin)
-
+class TinmiuserAdmin(UserAdmin):
+    add_form = TinmiuserCreationForm
+    form = TinmiuserChangeForm
+    model = models.Tinmiuser
+    list_display = ['username', 'email',]
 class MessagesInline(admin.TabularInline):
     model = models.Message 
     readonly_fields = ('sender', 'content', 'date')
@@ -15,3 +20,4 @@ class ChatroomAdmin(admin.ModelAdmin):
     inlines = [MessagesInline]
 
 admin.site.register(models.Chatroom, ChatroomAdmin)
+admin.site.register(models.Tinmiuser, TinmiuserAdmin)

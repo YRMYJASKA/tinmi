@@ -1,0 +1,47 @@
+{% extends 'chat/base.html' %}
+
+{% block title %}
+	{{room.room_title}}
+{% endblock %}
+
+{%block script%}
+	var roomid = {{room_id_json}};
+	var chatSocket = new WebSocket(
+		'ws://' + window.location.host + '/ws/chat/' + roomid + '/');
+	
+	chatSocket.onmessage = function(e) {
+		var data = JSON.parse(e.data);
+		var message = data['message'];
+		var sender = data['sender']
+		var d = new Date();
+		
+		document.querySelector('#chatbox').value += ("["+d.toLocaleString() + "] "+sender + ": " + message + '\n');
+	};
+	
+	chatSocket.onclose = function(e){
+		console.error("Enexcpected close!");	
+	};
+
+	document.querySelector('#user-msg-input').focus();
+	document.querySelector('#user-msg-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#user-msg-submit').click();
+        }
+    };
+	
+	document.querySelector('#user-msg-submit').onclick = function(e) {
+        var messageInputDom = document.querySelector('#user-msg-input');
+        var message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'message': message
+        }));
+
+        messageInputDom.value = '';
+    };
+{%endblock%}
+
+{% block content %}
+<textarea id="chatbox" cols="100" rows="20" readonly></textarea><br/>
+<input id="user-msg-input" type="text" size="100"/><br/>
+<input id="user-msg-submit" type="button" value="send"/>
+{% endblock %}

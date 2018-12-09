@@ -1,0 +1,32 @@
+{% load static %}
+
+<html>
+	<head>
+		<title>
+		{%block title%}
+		Placeholder title
+		{%endblock%}
+		</title>
+		<link href="https://fonts.googleapis.com/css?family=Quicksand|Roboto" rel="stylesheet"> 
+		<link rel="stylesheet" type="text/css" href="{%static 'chat/stylesheet.css'%}">
+	</head>
+	<header>
+		<div id="header-div">
+			{% if user.is_authenticated %}
+			<p id="header-help-text">logged in as {{user.username}} (<a href="{%url 'logout' %}">logout</a>)</p>
+			{%else%}
+			<p id="header-help-text"><a href="{%url 'login'%}">login</a> or <a href="{%url 'signup' %}">sign up</a></p>
+			{%endif%}
+		</div>
+	</header>
+	<body>
+	{%block content%}
+	Placeholder content
+	{%endblock%}
+	</body>
+	
+	<script>
+		{%block script%}
+		{%endblock%}
+	</script>
+</html>

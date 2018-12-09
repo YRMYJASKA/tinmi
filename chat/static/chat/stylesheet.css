@@ -1,0 +1,27 @@
+.errortext {
+	color: red;
+}
+
+.helptext {
+	color: grey;
+}
+
+h1 {
+    font-family: 'Quicksand', sans-serif;
+}
+
+p, li {
+    font-family: 'Roboto', sans-serif;
+}
+#header-div {
+	text-align: right;
+}
+.form-field {
+	display: inline-block;
+	text-align: left;
+}
+
+.centered, #signup-div{
+	margin:auto;
+	width: 10%;
+}
