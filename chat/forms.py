@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Tinmiuser 
+from .models import Tinmiuser, Chatroom
 
 class TinmiuserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
@@ -19,3 +19,11 @@ class TinmiuserChangeForm(UserChangeForm):
     class Meta(UserCreationForm):
         model = Tinmiuser
         fields = ('username', 'email')
+
+class RoomForm(forms.ModelForm):
+    class Meta:
+        model = Chatroom
+        fields = ['room_title']
+    def __init__(self, *args, **kwargs):
+        super(RoomForm, self).__init__(*args, **kwargs)
+        self.fields['room_title'].label = "room title"

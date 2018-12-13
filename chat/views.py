@@ -1,4 +1,4 @@
-from django.http import HttpResponseForbidden, Http404, JsonResponse
+from django.http import HttpResponseForbidden, HttpResponseRedirect, Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate 
 from django.shortcuts import redirect, render, HttpResponse
@@ -8,7 +8,7 @@ from django.template import loader
 import json
 
 from .models import *
-from .forms import TinmiuserCreationForm
+from .forms import *
 
 def index(request):
     return render(request, 'chat/index.html')
@@ -44,3 +44,17 @@ def signup(request):
     else:
         form = TinmiuserCreationForm()
     return render(request, 'chat/signup.html', {'form': form})
+# Room creation view
+@login_required
+def createroom(request):
+    if request.method == 'POST':
+        form = RoomForm(request.POST) 
+
+        if form.is_valid():
+            print(form)
+            theroom = Chatroom(room_title = form.cleaned_data['room_title'], room_owner = request.user)
+            theroom.save()
+            return HttpResponseRedirect('/c/'+theroom.room_id)
+    else:
+        form = RoomForm()
+    return render(request, 'chat/roomcreate.html', {'form': form})

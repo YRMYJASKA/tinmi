@@ -20,7 +20,7 @@ class Chatroom(models.Model):
     room_id = models.SlugField(primary_key=True, unique=True, editable=False, blank=True)
     room_title = models.CharField(max_length=64)
     date = models.DateTimeField(auto_now=True)    
-
+    room_owner = models.ForeignKey(Tinmiuser, on_delete=models.PROTECT)
     # On save, generate the additional room_id slug
     def save(self, *args, **kwargs):
         while not self.room_id:

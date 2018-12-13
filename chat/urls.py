@@ -8,5 +8,6 @@ urlpatterns = [
     path('a/login/', auth_views.LoginView.as_view(template_name='chat/login.html'), name='login'),
     path('a/logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
     path('a/signup/', views.signup, name='signup'),
+    path('c/create/', views.createroom, name='roomcreate'),
     path('c/<slug:slug>/', views.chatroom, name='chatroom'),
 ]
