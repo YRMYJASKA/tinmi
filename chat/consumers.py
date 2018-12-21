@@ -3,6 +3,7 @@ from channels.db import database_sync_to_async
 import json
 import re
 import datetime
+import random
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -10,7 +11,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_id = self.scope['url_route']['kwargs']['slug']
         self.room_group_name = 'chat_%s' % self.room_id
         self.last_msg_time = datetime.datetime.now()
-    
+        self.colour = "#%06x" % random.randint(0, 0xFFFFFF)
+        print(self.colour)
         # Join chat room
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
     
@@ -66,12 +68,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'type': 'chat_message',
                 'message': message,
                 'sender': self.user.username,
+                'colour': self.colour,
             }
         )
     async def chat_message(self, event):
         message_dirty = event['message']
         sender = event['sender']
-        
+        colour = event['colour']
+
         # Sanitize the string! AKA remove html tags
         cleanhtmlr = re.compile('<.*?>')
         message = re.sub(cleanhtmlr, '', message_dirty)
@@ -79,7 +83,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
                 'sender': sender,
                 'message': message,
-                'type': 'user_msg'
+                'type': 'user_msg',
+                'colour': colour
             }))
     async def notification_message(self, event):
         message = event['message']

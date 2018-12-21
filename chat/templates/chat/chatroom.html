@@ -16,12 +16,14 @@
 		var message = data['message'];
 		var msg_type = data['type'];
 		var sender = data['sender'];
+		var colour = data['colour'];
 		var d = new Date();
+
 		console.log("Message received")
 		console.log(data);
 
 		if (msg_type == "user_msg"){
-		var msg_formatted = "<b>["+d.toLocaleTimeString() + "]</b> "+sender + ": " + message + '\n';
+		var msg_formatted = "<b>["+d.toLocaleTimeString() + "]</b> <span style=\"color:" + colour + "\">"+ sender + "</span>: " + message + '\n';
 			$('#chatbox').append($('<p class="chat-msg">' + msg_formatted + '</p>'));
 		} else if (msg_type == "server_msg"){
 		var msg_formatted = "<b>[" + d.toLocaleTimeString() + "]</b> <i>" + message + "</i>\n";
@@ -42,7 +44,7 @@
     };
 	
 	document.querySelector('#user-msg-submit').onclick = function(e) {
-		var curr_time = new Date();
+		curr_time = new Date();
 		if ((curr_time.getTime()-last_msg_time.getTime())/1000 < 0.5){
 			console.log("Spam prevented! 0.5 seconds has not passed!");
 			last_msg_time = curr_time;
