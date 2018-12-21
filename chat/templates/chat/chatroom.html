@@ -1,7 +1,7 @@
 {% extends 'chat/base.html' %}
 
 {% block title %}
-	{{room.room_title}}
+	{{room_title}} | tinmi
 {% endblock %}
 
 {%block script%}
@@ -9,17 +9,29 @@
 	var chatSocket = new WebSocket(
 		'ws://' + window.location.host + '/ws/chat/' + roomid + '/');
 	
+	var last_msg_time = new Date();
+
 	chatSocket.onmessage = function(e) {
 		var data = JSON.parse(e.data);
 		var message = data['message'];
-		var sender = data['sender']
+		var msg_type = data['type'];
+		var sender = data['sender'];
 		var d = new Date();
-		
-		document.querySelector('#chatbox').value += ("["+d.toLocaleString() + "] "+sender + ": " + message + '\n');
-	};
+		console.log("Message received")
+		console.log(data);
+
+		if (msg_type == "user_msg"){
+		var msg_formatted = "<b>["+d.toLocaleTimeString() + "]</b> "+sender + ": " + message + '\n';
+			$('#chatbox').append($('<p class="chat-msg">' + msg_formatted + '</p>'));
+		} else if (msg_type == "server_msg"){
+		var msg_formatted = "<b>[" + d.toLocaleTimeString() + "]</b> <i>" + message + "</i>\n";
+			$('#chatbox').append($('<p class="chat-msg">' + msg_formatted + '</p>'));
+		}
+		$("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+		};
 	
 	chatSocket.onclose = function(e){
-		console.error("Enexcpected close!");	
+		console.error("Unexcpected close of WebSocket!");	
 	};
 
 	document.querySelector('#user-msg-input').focus();
@@ -30,8 +42,20 @@
     };
 	
 	document.querySelector('#user-msg-submit').onclick = function(e) {
+		var curr_time = new Date();
+		if ((curr_time.getTime()-last_msg_time.getTime())/1000 < 0.5){
+			console.log("Spam prevented! 0.5 seconds has not passed!");
+			last_msg_time = curr_time;
+			return;
+		}
+		last_msg_time = curr_time;
         var messageInputDom = document.querySelector('#user-msg-input');
         var message = messageInputDom.value;
+		
+		if (message == ""){
+		   return;
+		}
+
         chatSocket.send(JSON.stringify({
             'message': message
         }));
@@ -42,7 +66,7 @@
 
 {% block content %}
 <h2>{{room_title}}</h2>
-<textarea id="chatbox" cols="100" rows="20" readonly></textarea><br/>
+<div id="chatbox"></div>
 <input id="user-msg-input" type="text" size="100"/><br/>
 <input id="user-msg-submit" type="button" value="send"/>
 {% endblock %}

@@ -11,7 +11,7 @@ from .models import *
 from .forms import *
 
 def index(request):
-    return render(request, 'chat/index.html')
+    return render(request, 'chat/index.html', {'user': request.user})
 
 @login_required
 def chatroom(request, slug):
@@ -21,7 +21,14 @@ def chatroom(request, slug):
         r = Chatroom.objects.get(pk=slug)
     except Chatroom.DoesNotExist:
         raise Http404("Chatroom does not exist!")
-    
+
+    # Add the chatroom to the user's list of joined rooms
+    if r not in request.user.chatroom_set.all():
+        request.user.chatroom_set.add(r)
+
+        # Add the user into the members of the channel
+        r.users.add(request.user)
+
     # Return the rendered template 
     return render(request, 'chat/chatroom.html', {
         'room_id_json': mark_safe(json.dumps(slug)),
@@ -58,3 +65,25 @@ def createroom(request):
     else:
         form = RoomForm()
     return render(request, 'chat/roomcreate.html', {'form': form})
+
+# Leave the room of provided id,
+# then if no more people are in the chatroom => delete it
+@login_required
+def leaveroom(request, slug):
+    r = None
+    try:
+        r = Chatroom.objects.get(room_id = slug)
+    except Chatroon.DoesNotExist:
+        return Http404("Chatroom does not exist")
+
+    if request.user not in r.users.all():
+        return HttpResponseRedirect('/')
+    
+    r.users.remove(request.user)
+    r.save()
+    
+    if len(r.users.all()) < 1:
+        print("Room '%s' deleted. No more members" % slug)
+        r.delete()
+
+    return HttpResponseRedirect('/')

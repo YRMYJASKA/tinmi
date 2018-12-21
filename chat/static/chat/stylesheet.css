@@ -25,3 +25,14 @@ p, li {
 	margin:auto;
 	width: 10%;
 }
+
+#chatbox {
+	overflow: auto;
+	overflow-y: scroll;
+	height: 500px;
+	width: 750px;
+}
+
+.chat-msg {
+	font-size: 12px;
+}

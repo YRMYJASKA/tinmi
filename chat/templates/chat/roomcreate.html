@@ -1,5 +1,7 @@
 {%extends 'chat/base.html'%}
 
+{%block title%}create a room{%endblock%}
+
 {%block content%}
 <form method = "POST" action="{%url 'roomcreate'%}">
 	{%csrf_token%}

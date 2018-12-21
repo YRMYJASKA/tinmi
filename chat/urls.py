@@ -10,4 +10,5 @@ urlpatterns = [
     path('a/signup/', views.signup, name='signup'),
     path('c/create/', views.createroom, name='roomcreate'),
     path('c/<slug:slug>/', views.chatroom, name='chatroom'),
+    path('c/leave/<slug:slug>/', views.leaveroom, name='leaveroom')
 ]

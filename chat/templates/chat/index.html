@@ -8,4 +8,10 @@ Tinmi
 <h1 style="font-size: 60px">tinmi</h1>
 <p>fast and secure messaging</p>
 <p><a href="{%url 'roomcreate'%}">create a room</a></p>
+{% if user.is_authenticated %}
+	<h3>List of joined rooms</h3>
+	{%for room in user.chatroom_set.all%}
+	<p class="user-room-list"><a href="/c/{{room.room_id}}">{{room.room_title}}</a> (<a href="{%url 'leaveroom' slug=room.room_id%}">leave</a>)</p>
+	{%endfor%}
+{%endif%}
 {% endblock %}
