@@ -6,7 +6,7 @@
 	color: grey;
 }
 
-h1, h2{
+h1, h2, h3{
     font-family: 'Quicksand', sans-serif;
 }
 
@@ -31,9 +31,54 @@ p, li {
 	overflow-y: scroll;
 	overflow-wrap: break-word;
 	height: 500px;
-	width: 750px;
+	width: 100%;
 }
 
+#inputarea{
+	width: 100%;
+}
+
+#user-msg-input {
+	width: 100%;
+}
+
+#user-msg-submit {
+	width: 100%;
+	text-align: center;
+}
+
+#chatroom-list { background: white; }
+.chatroom-list-elem:nth-child(odd) {background: grey;}
+
+#main-wrapper {
+	width: 100%;
+}
+
+#chatroom-list {
+	position: absolute;
+	width: 21%;
+	display:inline-block;
+	overflow: auto;
+	overflow-y: scroll;
+	overflow-wrap: break-word;
+	float:left;
+}
+
+#chatview {
+	float: right;
+	text-align: right;
+	margin-top: 0px;
+}
+
+#chat-object {
+	overflow: auto;
+	border: 5px ridge blue;
+}
+
+.chatview-class {
+	width:87%;
+	height:650px;
+}
 .chat-msg {
 	font-size: 12px;
 	font-family: 'Roboto', sans-serif;

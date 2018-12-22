@@ -1,5 +1,8 @@
 {% extends 'chat/base.html' %}
 
+{%block header%}
+{%endblock%}
+
 {% block title %}
 	{{room_title}} | tinmi
 {% endblock %}
@@ -69,6 +72,10 @@
 {% block content %}
 <h2>{{room_title}}</h2>
 <div id="chatbox"></div>
-<input id="user-msg-input" type="text" size="100"/><br/>
-<input id="user-msg-submit" type="button" value="send"/>
+<table id="inputarea">
+	<tr>
+		<td style="width: 100%;"><input id="user-msg-input" type="text"/><br/></td>
+		<td><input id="user-msg-submit" type="button" value="send"/></td>
+	</tr>
+</table>
 {% endblock %}

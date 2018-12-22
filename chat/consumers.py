@@ -22,31 +22,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Join chat room
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()
-         
-        # Create a notification that an user joined
-        infomsg = "User '%s' joined the room" % (self.user.username)
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'server_message',
-                'message': infomsg,
-            }
-        )
 
         # Add the user to the current user pool of the chat room
         self.theroom.current_users.append(self.user.username)
+        
+        # Print welcoming message
+        await self.server_message({'message': "Joined room '%s'" % self.theroom.room_title})
+        await tinmi_commands['current'][0]('', self)
     
     async def disconnect(self, close_code):
         
-        # Create a notification that an user left the channel
-        infomsg = "User '%s' left the room" % (self.user.username)
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'server_message',
-                'message': infomsg,
-            }
-        )
         # Leave the chat room
         await self.channel_layer.group_discard (self.room_group_name, self.channel_name)
 

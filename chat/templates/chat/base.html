@@ -12,6 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="{%static 'chat/stylesheet.css'%}">
 	</head>
 	<header>
+		{%block header%}
 		<div id="header-div">
 			{% if user.is_authenticated %}
 			<p id="header-help-text">logged in as {{user.username}} (<a href="{%url 'logout' %}">logout</a>)</p>
@@ -19,6 +20,7 @@
 			<p id="header-help-text"><a href="{%url 'login'%}">login</a> or <a href="{%url 'signup' %}">sign up</a></p>
 			{%endif%}
 		</div>
+		{%endblock%}
 	</header>
 	<body>
 	{%block content%}

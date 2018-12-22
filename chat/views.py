@@ -6,12 +6,20 @@ from django.utils.safestring import mark_safe
 from django.template import loader
 
 import json
-
+import re
 from .models import *
 from .forms import *
 
+# 
 def index(request):
+    # If the user has already logged in
+    if request.user.is_authenticated:
+        return redirect("landing")
     return render(request, 'chat/index.html', {'user': request.user})
+
+@login_required
+def landing(request):
+    return render(request, 'chat/landing.html', {'user': request.user})
 
 @login_required
 def chatroom(request, slug):
@@ -42,6 +50,10 @@ def signup(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
+
+            # Remove XSS in the username
+            username = re.sub(re.compile('<.*?>'), '', username)
+
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)

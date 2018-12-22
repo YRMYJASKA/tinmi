@@ -1,0 +1,37 @@
+{%extends 'chat/base.html'%}
+
+{%block title%}
+tinmi
+{%endblock%}
+
+{%block script%}
+
+var currentRoomId = 0;
+
+$(document).ready(function(){
+	$(".chatroom-list-elem").click(function(){
+	var currentRoomId = $(this).find(".room-id-hidden").text();
+	console.log("/c/"+currentRoomId+"/")
+	$("#chat-object").attr('data',"/c/"+currentRoomId+"/")
+	});
+});
+
+{%endblock%}
+
+{%block content%}
+<p><a href="{%url 'roomcreate'%}">create a room</a></p>
+<div id="main-wrapper">
+<div id="chatroom-list">
+{%for room in user.chatroom_set.all%}
+	<div class="chatroom-list-elem">
+		<p>{{room.room_title}}</p> <p hidden class="room-id-hidden">{{room.room_id}}</p>
+	</div>
+{%endfor%}
+</div>
+
+<div id="chatview" class="chatview-class">
+	 <object class="chatview-class" type="text/html" data="/c/ZYD83650241a/" id="chat-object">
+	</object>
+</div>
+</div>
+{%endblock%}
