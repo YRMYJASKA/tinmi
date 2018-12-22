@@ -13,9 +13,11 @@ h1, h2, h3{
 p, li {
     font-family: 'Roboto', sans-serif;
 }
+
 #header-div {
 	text-align: right;
 }
+
 .form-field {
 	display: inline-block;
 	text-align: left;
@@ -48,7 +50,10 @@ p, li {
 	text-align: center;
 }
 
-#chatroom-list { background: white; }
+#chatroom-list { 
+	background: white;
+	height: 70%; 
+}
 .chatroom-list-elem:nth-child(odd) {background: grey;}
 
 #main-wrapper {

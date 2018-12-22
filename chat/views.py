@@ -66,7 +66,7 @@ def createroom(request):
             print(form)
             theroom = Chatroom(room_title = form.cleaned_data['room_title'], room_owner = request.user)
             theroom.save()
-            return HttpResponseRedirect('/c/'+theroom.room_id)
+            return HttpResponseRedirect('/c/')
     else:
         form = RoomForm()
     return render(request, 'chat/roomcreate.html', {'form': form})
