@@ -81,3 +81,9 @@ p, li {
 	font-size: 12px;
 	font-family: 'Roboto', sans-serif;
 }
+
+#logo-wrapper {
+	text-align: left;
+	margin-top: -40;
+	position: absolute;
+}
