@@ -27,10 +27,11 @@ p, li {
 }
 
 #chatbox {
+	text-align: left;
 	overflow: auto;
 	overflow-y: scroll;
 	overflow-wrap: break-word;
-	height: 500px;
+	height: 70%;
 	width: 100%;
 }
 
@@ -64,21 +65,18 @@ p, li {
 	float:left;
 }
 
+::-webkit-scrollbar {
+    width: 0px; 
+    background: transparent;
+}
+
 #chatview {
 	float: right;
-	text-align: right;
+	text-align: left;
 	margin-top: 0px;
+	width:77%;
 }
 
-#chat-object {
-	overflow: auto;
-	border: 5px ridge blue;
-}
-
-.chatview-class {
-	width:87%;
-	height:650px;
-}
 .chat-msg {
 	font-size: 12px;
 	font-family: 'Roboto', sans-serif;

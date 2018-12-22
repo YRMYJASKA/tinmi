@@ -26,8 +26,6 @@ class Chatroom(models.Model):
     # Room owner
     room_owner = models.ForeignKey(Tinmiuser, on_delete=models.PROTECT, related_name="owneruser")
     
-    # List of current users in the room
-    current_users = []
     # On save, generate the additional room_id slug
     def save(self, *args, **kwargs):
         while not self.room_id:

@@ -30,13 +30,6 @@ def chatroom(request, slug):
     except Chatroom.DoesNotExist:
         raise Http404("Chatroom does not exist!")
 
-    # Add the chatroom to the user's list of joined rooms
-    if r not in request.user.chatroom_set.all():
-        request.user.chatroom_set.add(r)
-
-        # Add the user into the members of the channel
-        r.users.add(request.user)
-
     # Return the rendered template 
     return render(request, 'chat/chatroom.html', {
         'room_id_json': mark_safe(json.dumps(slug)),

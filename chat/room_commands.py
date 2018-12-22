@@ -1,9 +1,11 @@
-# Commands to be used in channels
+# Commands to be used in rooms
 
 from asgiref.sync import async_to_sync
 
 from .models import *
 from .consumers import *
+
+from .runtime_constants import *
 
 # Declare the list of commands. Commands are added at the end of this file
 tinmi_commands = {}
@@ -28,7 +30,7 @@ async def ping_cmd(msg, consumer):
 # /current
 async def current_cmd(msg, consumer):
     """Lists all current users in the chatroom"""
-    output = ", ".join(consumer.theroom.current_users)
+    output = ", ".join(channel_current_users[consumer.room_id])
     await consumer.server_message({'message': "<b>users online:</b> " + output,})
 
 

@@ -1,8 +1,12 @@
+# consumers.py
+# tinmi
+
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 
 from .models import Chatroom
-from .channel_commands import tinmi_commands 
+from .room_commands import tinmi_commands 
+from .runtime_constants import channel_current_users
 
 import json
 import re
@@ -22,12 +26,22 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Join chat room
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()
+        
+        # Add the chatroom to the user's list of joined rooms
+        if self.theroom not in self.user.chatroom_set.all():
+            # Add the user into the members of the channel
+            self.theroom.users.add(self.user)
+
+
 
         # Add the user to the current user pool of the chat room
-        self.theroom.current_users.append(self.user.username)
-        
+        prev = []
+        if self.room_id in channel_current_users.keys():
+            prev = channel_current_users[self.room_id]
+        channel_current_users.update({self.room_id: prev+[self.user.username]})
+
         # Print welcoming message
-        await self.server_message({'message': "Joined room '%s'" % self.theroom.room_title})
+        await self.server_message({'message': "joined room '%s'" % self.theroom.room_title})
         await tinmi_commands['current'][0]('', self)
     
     async def disconnect(self, close_code):
@@ -36,7 +50,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard (self.room_group_name, self.channel_name)
 
         # Delete user from current users
-        self.theroom.current_users.remove(self.user.username)
+        channel_current_users[self.room_id].remove(self.user.username)
 
     async def receive(self, text_data):
         data_json = json.loads(text_data)
