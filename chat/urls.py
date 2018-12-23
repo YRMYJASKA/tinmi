@@ -9,8 +9,10 @@ urlpatterns = [
     path('a/logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
     path('a/signup/', views.signup, name='signup'),
     path('c/', views.landing, name='landing'),
-    path('c/create/', views.createroom, name='roomcreate'),
     path('c/<slug:slug>/', views.chatroom, name='chatroom'),
     path('c/leave/<slug:slug>/', views.leaveroom, name='leaveroom'),
+
+    # AJAX functionality of Tinmi
+    path('ajax/create_room/', views.createroom, name='roomcreate'),
     path('ajax/validate_room/', views.validate_room, name='validate_room'),
 ]

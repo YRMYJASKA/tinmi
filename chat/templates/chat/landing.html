@@ -24,7 +24,7 @@ tinmi
 			<input id="join-room-submit" type="submit" value="join">
 		</form>
 		<p>or create a room</p>
-		<form method="POST" action ="{%url 'roomcreate'%}"id="create-room-form">
+		<form id="create-room-form">
 			{%csrf_token%}
 			<input name="room_title" required="" maxlenght="64" id="id_room_title" type="text" placeholder="title">
 			<input type="submit" id="room-create-submit" type="button" value="create">
@@ -32,7 +32,7 @@ tinmi
 	</div>
 	{%for room in user.chatroom_set.all%}
 	<div class="chatroom-list-elem">
-		<span class="room-title-title">{{room.room_title}}</span> <p hidden class="room-id-hidden">{{room.room_id}}</p>
+		<span class="room-list-title">{{room.room_title}}</span> <p hidden class="room-id-hidden">{{room.room_id}}</p>
 	</div>
 {%endfor%}
 </div>

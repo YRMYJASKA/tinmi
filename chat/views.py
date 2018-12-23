@@ -1,4 +1,4 @@
-from django.http import HttpResponseForbidden, HttpResponseRedirect, Http404, JsonResponse
+from django.http import HttpResponseForbidden, HttpResponseRedirect, Http404, JsonResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate 
 from django.shortcuts import redirect, render, HttpResponse
@@ -60,17 +60,16 @@ def signup(request):
 @login_required
 def createroom(request):
     if request.method == 'POST':
-        print("Post for room creation")
         form = RoomForm(request.POST) 
-
+        print(request.POST)
+        print(form)
         if form.is_valid():
             theroom = Chatroom(room_title = form.cleaned_data['room_title'], room_owner = request.user)
             theroom.save()
             theroom.users.add(request.user)
-            return HttpResponseRedirect('/c/')
+            return JsonResponse({'success': True, 'room_id':theroom.room_id, 'room_title': theroom.room_title})
     else:
-        form = RoomForm()
-    return render(request, 'chat/roomcreate.html', {'form': form})
+        return HttpResponseBadRequest("Bad Request")
 
 # Leave the room of provided id,
 # then if no more people are in the chatroom => delete it

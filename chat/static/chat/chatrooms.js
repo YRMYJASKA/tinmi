@@ -2,6 +2,26 @@ var chatSocket; // useless for now
 var last_msg_time = new Date();
 
 
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 function init_socket(){
 	// WebSocket receives a message from connection
@@ -46,6 +66,15 @@ function switch_sockets(roomid, room_title){
 }
 
 $(document).ready(function(){
+	var csrftoken = getCookie('csrftoken');
+	$.ajaxSetup({
+		beforeSend: function(xhr, settings) {
+			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			}
+		}
+	});
+
 	// Set initial value of chatbox
 	$('#chatbox').append($('<p>Join or create a chatroom</p>'));
 	
@@ -54,7 +83,7 @@ $(document).ready(function(){
 		var roomid = $(this).find(".room-id-hidden").text();
 		var room_title= $(this).find(".room-list-title").text()
 		switch_sockets(roomid, room_title);
-		console.log("Switching rooms...");
+		$("#chat-room-title").text(room_title);
 	});
 	
 	// Check for enter keypress
@@ -113,10 +142,9 @@ $(document).ready(function(){
 					var room_title = data.room_title;
 					$("#chatroom-list").append('<div class="chatroom-list-elem"> <span class="room-title-title">' + room_title +  '</span> <p hidden class="room-id-hidden">' + roomid + '</p></div>');
 					switch_sockets(roomid, room_title);
-		
-
-						 } else {
-							alert("no available room with ID '" +roomid + "'");
+					$("#chatroom-list").scrollTop($("#chatroom-list")[0].scrollHeight);
+				} else {
+					alert("no available room with ID '" +roomid + "'");
 			  	}
 			},
 			error: function (xhr, ajaxOptions, thrownError, request, error){
@@ -130,6 +158,33 @@ $(document).ready(function(){
 	// When creating a room
 	// TODO: join the room when it is created
 	$("#room-create-submit").click(function(e){
-		//switch_sockets(roomid, room_title);
+		var room_title = $("#id_room_title").val();
+		$.ajax({
+			type: "POST",
+			url: "/ajax/create_room/",
+			data: {'room_title': room_title},
+			dataType: 'json',
+			success: function (data) {
+				console.log(data);
+			  	if (data.success) {
+					// Creation of chat room succeeded
+					console.log("success!!");
+					$("#id_room_title").val("");
+					$("#add-room-icon").click();
+					var room_title = data.room_title;
+					var roomid = data.room_id;
+					$("#chatroom-list").append('<div class="chatroom-list-elem"> <span class="room-title-title">' + room_title +  '</span> <p hidden class="room-id-hidden">' + roomid + '</p></div>');
+					switch_sockets(roomid, room_title);
+					$("#chatroom-list").scrollTop($("#chatroom-list")[0].scrollHeight);
+				} else {
+					alert("Room creation failed!");
+			  	}
+			},
+			error: function (xhr, ajaxOptions, thrownError, request, error){
+				console.error("Error executing AJAX request!");
+				console.error(request);
+			}
+      	});
+		return false;
 	});
 });
