@@ -89,13 +89,38 @@ h1, h2, h3{
 
 .chatroom-list-elem{
 	padding: 25 25 25 5;
+	position:relative;
 	border-bottom: solid 2px grey;
 	cursor: pointer;
+	z-index: 12;
 }
 
 .chatroom-list-elem:hover{
 	background-color: grey;
 }
+
+.chatroom-list-elem:hover .list-elem-remove{
+	display: inline-block;
+}
+
+.list-elem-remove{
+	font-size: 32px;
+	color: red;
+	padding: 0 5 0 5;
+	text-align: right;
+	position:absolute;
+	right: 5px;
+	top: 5px;
+	border-radius: 30%;
+	display:none;
+}
+
+.list-elem-remove:hover {
+	background-color: red; 
+	color: black;
+}
+
+
 
 ::-webkit-scrollbar {
     width: 0px; 

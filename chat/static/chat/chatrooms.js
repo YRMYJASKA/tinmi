@@ -85,7 +85,13 @@ $(document).ready(function(){
 		switch_sockets(roomid, room_title);
 		$("#chat-room-title").text(room_title);
 	});
-	
+	$(document).on("click", ".list-elem-remove",function(event){
+		// TODO: leave the room which was clicked to be removed
+		
+		// Stop underlaying div from getting clicked
+		event.stopPropagation();
+		console.log("left room");
+	});
 	// Check for enter keypress
 	$('#user-msg-input').keyup(function(e) {
 		if (e.keyCode === 13) {  // enter, return

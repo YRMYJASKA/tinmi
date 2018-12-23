@@ -32,7 +32,8 @@ tinmi
 	</div>
 	{%for room in user.chatroom_set.all%}
 	<div class="chatroom-list-elem">
-		<span class="room-list-title">{{room.room_title}}</span> <p hidden class="room-id-hidden">{{room.room_id}}</p>
+		<span class="room-list-title">{{room.room_title}}</span> <span hidden class="room-id-hidden">{{room.room_id}}</span>
+		<div class="list-elem-remove">&#10006;</div>
 	</div>
 {%endfor%}
 </div>
