@@ -10,12 +10,29 @@ tinmi
 {%endblock%}
 
 {%block content%}
-<p><a href="{%url 'roomcreate'%}">create a room</a></p>
 <div id="main-wrapper">
+
+
 <div id="chatroom-list">
-{%for room in user.chatroom_set.all%}
+	<div id="add-room-icon" class="dropdown">
+		+	
+	</div>
+	<div id="add-room-content" class="dropdown-content">
+		<p>enter a room id</p>
+		<form id="join-room-form">
+			<input name="roomid" id="join-room-id" type="text" placeholder="room ID">
+			<input id="join-room-submit" type="submit" value="join">
+		</form>
+		<p>or create a room</p>
+		<form method="POST" action ="{%url 'roomcreate'%}"id="create-room-form">
+			{%csrf_token%}
+			<input name="room_title" required="" maxlenght="64" id="id_room_title" type="text" placeholder="title">
+			<input type="submit" id="room-create-submit" type="button" value="create">
+		</form>
+	</div>
+	{%for room in user.chatroom_set.all%}
 	<div class="chatroom-list-elem">
-		<p class="room_title">{{room.room_title}}</p> <p hidden class="room-id-hidden">{{room.room_id}}</p>
+		<span class="room-title-title">{{room.room_title}}</span> <p hidden class="room-id-hidden">{{room.room_id}}</p>
 	</div>
 {%endfor%}
 </div>

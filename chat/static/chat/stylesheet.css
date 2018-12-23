@@ -10,12 +10,13 @@ h1, h2, h3{
     font-family: 'Quicksand', sans-serif;
 }
 
-p, li {
+* {
     font-family: 'Roboto', sans-serif;
 }
 
 #header-div {
 	text-align: right;
+	display: block;
 }
 
 .form-field {
@@ -37,24 +38,36 @@ p, li {
 	width: 100%;
 }
 
+#add-room-icon{
+	text-align: right;
+	display: inline-block;
+	padding: 0 10 0 10;
+	font-size: 32px;
+}
+#add-room-icon:hover{
+	background-color: #ccc;
+}
+.add-room-icon-activated {
+	background-color: #ccc;
+}
+
 #inputarea{
 	width: 100%;
 }
 
 #user-msg-input {
 	width: 100%;
+	padding-right: 0;
 }
 
 #user-msg-submit {
 	width: 100%;
 	text-align: center;
+	border: none;
+	background-color: grey;
+	padding: 8 10 8 10;
 }
 
-#chatroom-list { 
-	background: white;
-	height: 70%; 
-}
-.chatroom-list-elem:nth-child(odd) {background: grey;}
 
 #main-wrapper {
 	width: 100%;
@@ -68,11 +81,29 @@ p, li {
 	overflow-y: scroll;
 	overflow-wrap: break-word;
 	float:left;
+	background: white;
+	height: 70%; 
+}
+
+//.chatroom-list-elem:nth-child(odd) {background: grey;}
+
+.chatroom-list-elem{
+	padding: 25 25 25 5;
+	border-bottom: solid 2px grey;
+	cursor: pointer;
+}
+
+.chatroom-list-elem:hover{
+	background-color: grey;
 }
 
 ::-webkit-scrollbar {
     width: 0px; 
     background: transparent;
+}
+
+#add-room-icon{
+	cursor: pointer;
 }
 
 #chatview {
@@ -91,4 +122,15 @@ p, li {
 	text-align: left;
 	margin-top: -40;
 	position: absolute;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+	z-index:100;
+}
+
+#add-room-content {
+    background: #ccc;
+	padding: 5 10 5 10 ;
 }

@@ -11,5 +11,6 @@ urlpatterns = [
     path('c/', views.landing, name='landing'),
     path('c/create/', views.createroom, name='roomcreate'),
     path('c/<slug:slug>/', views.chatroom, name='chatroom'),
-    path('c/leave/<slug:slug>/', views.leaveroom, name='leaveroom')
+    path('c/leave/<slug:slug>/', views.leaveroom, name='leaveroom'),
+    path('ajax/validate_room/', views.validate_room, name='validate_room'),
 ]

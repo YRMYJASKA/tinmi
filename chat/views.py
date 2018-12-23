@@ -60,12 +60,13 @@ def signup(request):
 @login_required
 def createroom(request):
     if request.method == 'POST':
+        print("Post for room creation")
         form = RoomForm(request.POST) 
 
         if form.is_valid():
-            print(form)
             theroom = Chatroom(room_title = form.cleaned_data['room_title'], room_owner = request.user)
             theroom.save()
+            theroom.users.add(request.user)
             return HttpResponseRedirect('/c/')
     else:
         form = RoomForm()
@@ -92,3 +93,19 @@ def leaveroom(request, slug):
         r.delete()
 
     return HttpResponseRedirect('/')
+
+# Return JSON boolean depending on if requested room is valid
+# Meant to be used via AJAX
+@login_required
+def validate_room(request):
+    requested_id = request.GET.get('room_id', None)
+    data = {
+            'is_valid': Chatroom.objects.filter(room_id__iexact=requested_id).exists(),
+            'room_title': None,
+            }
+
+    if data['is_valid']:
+        data['room_title'] = Chatroom.objects.get(room_id__iexact=requested_id).room_title
+
+    print(data)
+    return JsonResponse(data)
