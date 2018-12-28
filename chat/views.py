@@ -62,8 +62,9 @@ def createroom(request):
     if request.method == 'POST':
         form = RoomForm(request.POST) 
         print(request.POST)
-        print(form)
         if form.is_valid():
+            if form.cleaned_data['room_title'] == "": 
+                return JsonResponse({'success': False})
             theroom = Chatroom(room_title = form.cleaned_data['room_title'], room_owner = request.user)
             theroom.save()
             theroom.users.add(request.user)
@@ -74,24 +75,25 @@ def createroom(request):
 # Leave the room of provided id,
 # then if no more people are in the chatroom => delete it
 @login_required
-def leaveroom(request, slug):
+def leaveroom(request):
     r = None
     try:
-        r = Chatroom.objects.get(room_id = slug)
+        r = Chatroom.objects.get(room_id = request.POST.get('room_id'))
     except Chatroon.DoesNotExist:
-        return Http404("Chatroom does not exist")
+        return JsonResponse({'success': False})
 
     if request.user not in r.users.all():
-        return HttpResponseRedirect('/')
+        return JsonResponse({'success': False})
     
     r.users.remove(request.user)
     r.save()
-    
+    response = {'success': True, 'deleted_room': False}  
     if len(r.users.all()) < 1:
-        print("Room '%s' deleted. No more members" % slug)
+        print("Room '%s' deleted. No more members" % request.POST.get("room_id"))
         r.delete()
+        response['deleted_room']= True
 
-    return HttpResponseRedirect('/')
+    return JsonResponse(response)
 
 # Return JSON boolean depending on if requested room is valid
 # Meant to be used via AJAX

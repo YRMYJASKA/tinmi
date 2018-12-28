@@ -1,5 +1,6 @@
 var chatSocket; // useless for now
 var last_msg_time = new Date();
+var current_id = "";
 
 
 function csrfSafeMethod(method) {
@@ -47,7 +48,7 @@ function init_socket(){
 		};
 
 	chatSocket.onclose = function(e){
-		console.log("Closed connection to" + chatSocket.url)
+		console.log("Closed connection to " + chatSocket.url)
 	};
 };
 
@@ -63,6 +64,7 @@ function switch_sockets(roomid, room_title){
 	$("#chat-room-title").text(room_title)
 	console.log(chatSocket);
 	$('#user-msg-input').focus();
+	current_id = roomid;
 }
 
 $(document).ready(function(){
@@ -82,15 +84,48 @@ $(document).ready(function(){
 	$(document).on("click", ".chatroom-list-elem", function(event){
 		var roomid = $(this).find(".room-id-hidden").text();
 		var room_title= $(this).find(".room-list-title").text()
+		
+		// If already connected, do nothing
+		if (roomid === current_id){
+			return;
+		}
 		switch_sockets(roomid, room_title);
 		$("#chat-room-title").text(room_title);
 	});
-	$(document).on("click", ".list-elem-remove",function(event){
-		// TODO: leave the room which was clicked to be removed
-		
+
+	$(document).on("click", ".list-elem-remove", function(event){
 		// Stop underlaying div from getting clicked
 		event.stopPropagation();
-		console.log("left room");
+		console.log("leaving room");
+		var roomid = $(this).parent().find(".room-id-hidden").text();
+		var list_elem = $(this).parent(); 
+		$.ajax({
+			type: "POST",
+			url: "/ajax/leaveroom/", 
+			data: {'room_id': roomid},
+			dataType: 'json',
+			success: function (data) {
+			  	if (data.success) {
+					console.log("Succesfully left the room!");
+					// Check if leaving the same room as current connection
+					// If so: close the connection 
+					if(roomid === current_id){
+						chatSocket.close();
+						current_id = "";
+					}
+					
+					list_elem.remove();
+				} else {
+					alert("Failed to leave room '" + roomid + "'!");
+			  	}
+			},
+			error: function (xhr, ajaxOptions, thrownError, request, error){
+				console.error("Error executing AJAX request!");
+				console.log(this.url);
+			}
+		});
+		console.log("moro");
+		return false;
 	});
 	// Check for enter keypress
 	$('#user-msg-input').keyup(function(e) {
@@ -146,7 +181,7 @@ $(document).ready(function(){
 					$("#join-room-id").val("");
 					$("#add-room-icon").click();
 					var room_title = data.room_title;
-					$("#chatroom-list").append('<div class="chatroom-list-elem"> <span class="room-title-title">' + room_title +  '</span> <p hidden class="room-id-hidden">' + roomid + '</p></div>');
+					$("#chatroom-list").append('<div class="chatroom-list-elem"> <span class="room-title-title">' + room_title +  '</span> <p hidden class="room-id-hidden">' + roomid + '</p><div class="list-elem-remove">&#10006;</div></div>');
 					switch_sockets(roomid, room_title);
 					$("#chatroom-list").scrollTop($("#chatroom-list")[0].scrollHeight);
 				} else {
@@ -175,11 +210,12 @@ $(document).ready(function(){
 			  	if (data.success) {
 					// Creation of chat room succeeded
 					console.log("success!!");
+
 					$("#id_room_title").val("");
 					$("#add-room-icon").click();
 					var room_title = data.room_title;
 					var roomid = data.room_id;
-					$("#chatroom-list").append('<div class="chatroom-list-elem"> <span class="room-title-title">' + room_title +  '</span> <p hidden class="room-id-hidden">' + roomid + '</p></div>');
+					$("#chatroom-list").append('<div class="chatroom-list-elem"> <span class="room-title-title">' + room_title +  '</span> <p hidden class="room-id-hidden">' + roomid + '</p><div class="list-elem-remove">&#10006;</div></div>');
 					switch_sockets(roomid, room_title);
 					$("#chatroom-list").scrollTop($("#chatroom-list")[0].scrollHeight);
 				} else {

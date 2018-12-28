@@ -24,10 +24,10 @@ tinmi
 			<input id="join-room-submit" type="submit" value="join">
 		</form>
 		<p>or create a room</p>
-		<form id="create-room-form">
+		<form id="create-room-form" method="POST">
 			{%csrf_token%}
-			<input name="room_title" required="" maxlenght="64" id="id_room_title" type="text" placeholder="title">
-			<input type="submit" id="room-create-submit" type="button" value="create">
+			<input name="room_title" maxlenght="64" id="id_room_title" type="text" placeholder="title">
+			<input type="submit" id="room-create-submit"  value="create">
 		</form>
 	</div>
 	{%for room in user.chatroom_set.all%}
