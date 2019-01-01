@@ -28,7 +28,21 @@ h1, h2, h3{
 	margin:auto;
 	width: 10%;
 }
-
+#signup-login-div {
+	margin: 0 auto;
+	width: 40%;
+}
+#index-signup-div {
+	margin: auto;
+	width: 47.5%;
+	float: right;
+	border-left: solid black ;
+	padding-left: 3%;
+}
+#index-login-div {
+	width: 10%;
+	float: left;
+}
 #chatbox {
 	text-align: left;
 	overflow: auto;

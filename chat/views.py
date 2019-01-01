@@ -15,7 +15,11 @@ def index(request):
     # If the user has already logged in
     if request.user.is_authenticated:
         return redirect("landing")
-    return render(request, 'chat/index.html', {'user': request.user})
+    
+    signupform = TinmiuserCreationForm()
+    loginform = Tinmiuser
+
+    return render(request, 'chat/index.html', {'user': request.user, 'signupform': signupform, 'loginform': loginform,})
 
 @login_required
 def landing(request):

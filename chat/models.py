@@ -40,15 +40,3 @@ class Chatroom(models.Model):
 
             print(self.room_owner.username)
         super(Chatroom, self).save(*args, **kwargs)
-
-# Message: is sent to a room
-class Message(models.Model):
-    # Which room does this message belong to
-    chatroom = models.ForeignKey(Chatroom, on_delete=models.CASCADE)
-    
-    # Which user sent this message
-    sender = models.ForeignKey(Tinmiuser, on_delete=models.PROTECT)
-
-    # Data
-    content = models.CharField(max_length=256)
-    date = models.DateTimeField(auto_now=True) # When the message was sent

@@ -9,15 +9,10 @@ class TinmiuserAdmin(UserAdmin):
     form = TinmiuserChangeForm
     model = models.Tinmiuser
     list_display = ['username', 'email',]
-class MessagesInline(admin.TabularInline):
-    model = models.Message 
-    readonly_fields = ('sender', 'content', 'date')
 
 class ChatroomAdmin(admin.ModelAdmin):
     list_display = ['room_title', 'room_id', ]
     readonly_fields = ('room_title', 'room_id', 'date')
-
-    inlines = [MessagesInline]
 
 admin.site.register(models.Chatroom, ChatroomAdmin)
 admin.site.register(models.Tinmiuser, TinmiuserAdmin)
