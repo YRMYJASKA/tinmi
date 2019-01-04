@@ -107,10 +107,14 @@ def validate_room(request):
     data = {
             'is_valid': Chatroom.objects.filter(room_id__iexact=requested_id).exists(),
             'room_title': None,
+            'user_in_room': False,
             }
 
     if data['is_valid']:
         data['room_title'] = Chatroom.objects.get(room_id__iexact=requested_id).room_title
+        if request.user in Chatroom.objects.get(room_id__iexact=requested_id).users.all():
+            data['user_in_room'] = True;
+
 
     print(data)
     return JsonResponse(data)

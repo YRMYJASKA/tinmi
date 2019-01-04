@@ -58,7 +58,12 @@ h1, h2, h3{
 	padding: 0 10 0 10;
 	font-size: 32px;
 }
-#add-room-icon:hover{
+
+.dropdown {
+	cursor: pointer;
+}
+
+.dropdown:hover{
 	background-color: #ccc;
 }
 .add-room-icon-activated {
@@ -141,10 +146,6 @@ h1, h2, h3{
     background: transparent;
 }
 
-#add-room-icon{
-	cursor: pointer;
-}
-
 #chatview {
 	float: right;
 	text-align: left;
@@ -167,9 +168,22 @@ h1, h2, h3{
     display: none;
     position: absolute;
 	z-index:100;
-}
-
-#add-room-content {
     background: #ccc;
 	padding: 5 10 5 10 ;
+}
+
+#room-share-content {
+	position: relative;
+	text-align: right;
+	float: right;
+}
+
+#room-share-btn {
+	display: inline-block;
+	float: right;
+	margin-right: 5%;
+	font-size: 16px;
+}
+#room-id-mark{
+	background-color: darkgrey;
 }

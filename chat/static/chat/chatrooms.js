@@ -65,6 +65,7 @@ function switch_sockets(roomid, room_title){
 	console.log(chatSocket);
 	$('#user-msg-input').focus();
 	current_id = roomid;
+	$('#room-id-mark').text(current_id);
 }
 
 $(document).ready(function(){
@@ -165,7 +166,12 @@ $(document).ready(function(){
 		});
 		$(this).toggleClass("add-room-icon-activated");
 	});
-
+	
+	// Dropdown menu for sharing rooms
+	$('#room-share-btn').click(function(){
+		$('#room-share-content').toggle("slide", {direction:"right"}, 100);
+		$(this).toggleClass("add-room-icon-activated");
+	});
 	// When user clicks join room
 	$('#join-room-submit').click(function(){
 		var roomid = $('#join-room-id').val();
@@ -176,7 +182,10 @@ $(document).ready(function(){
 			dataType: 'json',
 			success: function (data) {
 				console.log(data);
-			  	if (data.is_valid) {
+				if (data.user_in_room){
+					alert("you are already in that room!");
+				}
+			  	else if (data.is_valid ) {
 					// The chatroom exists 
 					$("#join-room-id").val("");
 					$("#add-room-icon").click();
@@ -197,7 +206,6 @@ $(document).ready(function(){
 
 	});
 	// When creating a room
-	// TODO: join the room when it is created
 	$("#room-create-submit").click(function(e){
 		var room_title = $("#id_room_title").val();
 		$.ajax({
