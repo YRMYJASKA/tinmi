@@ -33,6 +33,15 @@ async def current_cmd(msg, consumer):
     output = ", ".join(channel_current_users[consumer.room_id])
     await consumer.server_message({'message': "<b>users online:</b> " + output,})
 
+# /created
+async def created_cmd(msg, consumer):
+    """Returns when the room was created"""
+    await consumer.server_message({'message': str(consumer.theroom.date),})
+
+# /owner
+async def owner_cmd(msg, consumer):
+    """Returns the owner of the room"""
+    await consumer.server_message({'message': "Owner of this room: " + str(consumer.theroom.room_owner),})
 
 # Master dictionary containing all the commands and responding calls
 # '<command name>': (<command function>, <clearance level>)
@@ -43,5 +52,7 @@ tinmi_commands =  {
         'help': (help_cmd, 0),
         'ping': (ping_cmd, 0),
         'current': (current_cmd, 0),
+        'owner': (owner_cmd, 0),
+        'created': (created_cmd, 0)
         }
 
