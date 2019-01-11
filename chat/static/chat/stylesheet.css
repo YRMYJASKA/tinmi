@@ -1,3 +1,12 @@
+:root {
+	--color-one: #ed6a5a;
+	--color-two: #f4f1bb;
+	--color-three: #9bc1bc;
+	--color-four: #5d576b;
+	--color-five: #e6ebe0;
+	--color-bg-main: #e6ebe0;
+}
+
 .errortext {
 	color: red;
 }
@@ -8,12 +17,17 @@
 
 h1, h2, h3{
     font-family: 'Quicksand', sans-serif;
+	color: var(--color-one);
 }
 
 * {
     font-family: 'Roboto', sans-serif;
+	color: var(--color-four);
 }
 
+body {
+	background-color: var(--color-bg-main);
+}
 #header-div {
 	text-align: right;
 	display: block;
@@ -37,7 +51,7 @@ h1, h2, h3{
 	width: 47.5%;
 	float: right;
 	border-left: solid black ;
-	padding-left: 3%;
+	padding-left: 12.5%;
 }
 #index-login-div {
 	width: 10%;
@@ -50,6 +64,9 @@ h1, h2, h3{
 	overflow-wrap: break-word;
 	height: 70%;
 	width: 100%;
+	border-radius: 5%;
+	background-color: var(--color-two);
+	padding: 10 5 5 5;
 }
 
 #add-room-icon{
@@ -59,19 +76,27 @@ h1, h2, h3{
 	font-size: 32px;
 }
 
+#logo-text{
+	font-size: 64px;
+	color: var(--color-one);
+}
+
 .dropdown {
 	cursor: pointer;
 }
 
 .dropdown:hover{
-	background-color: #ccc;
+	background-color: var(--color-three);
 }
 .add-room-icon-activated {
-	background-color: #ccc;
+	background-color: var(--color-three);
 }
 
 #inputarea{
+	margin-top: 10px;
 	width: 100%;
+	border-radius: 5%;
+	background-color: var(--color-two);
 }
 
 #user-msg-input {
@@ -82,11 +107,12 @@ h1, h2, h3{
 #user-msg-submit {
 	width: 100%;
 	text-align: center;
-	border: none;
-	background-color: grey;
-	padding: 8 10 8 10;
 }
 
+#chatview-header {
+	width: 100%;
+	border-radius: 5%;
+}
 
 #main-wrapper {
 	width: 100%;
@@ -100,22 +126,21 @@ h1, h2, h3{
 	overflow-y: scroll;
 	overflow-wrap: break-word;
 	float:left;
-	background: white;
 	height: 70%; 
+	background-color: var(--color-two);
+	border-radius: 5%;
 }
-
-//.chatroom-list-elem:nth-child(odd) {background: grey;}
 
 .chatroom-list-elem{
 	padding: 25 25 25 5;
 	position:relative;
-	border-bottom: solid 2px grey;
+	//border-bottom: solid 2px grey;
 	cursor: pointer;
 	z-index: 12;
 }
 
 .chatroom-list-elem:hover{
-	background-color: grey;
+	background-color: var(--color-three);
 }
 
 .chatroom-list-elem:hover .list-elem-remove{
@@ -124,7 +149,7 @@ h1, h2, h3{
 
 .list-elem-remove{
 	font-size: 32px;
-	color: red;
+	color: red; 
 	padding: 0 5 0 5;
 	text-align: right;
 	position:absolute;
@@ -139,8 +164,6 @@ h1, h2, h3{
 	color: black;
 }
 
-
-
 ::-webkit-scrollbar {
     width: 0px; 
     background: transparent;
@@ -151,6 +174,8 @@ h1, h2, h3{
 	text-align: left;
 	margin-top: 0px;
 	width:77%;
+	border-radius: 4%;
+	padding: 10 10 10 10;
 }
 
 .chat-msg {
@@ -161,14 +186,13 @@ h1, h2, h3{
 #logo-wrapper {
 	text-align: left;
 	margin-top: -40;
-	position: absolute;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
 	z-index:100;
-    background: #ccc;
+	background-color: var(--color-three);
 	padding: 5 10 5 10 ;
 }
 
@@ -185,5 +209,18 @@ h1, h2, h3{
 	font-size: 16px;
 }
 #room-id-mark{
-	background-color: darkgrey;
+	background-color: var(--color-five);
+}
+
+#login-wrapper, #signup-wrapper{
+	background-color: var(--color-two);
+	border-radius: 40%;
+	display: inline-block;
+	padding: 0 15 0 15;
+}
+
+#header-help-text {
+	position: absolute;
+	top: 10px;
+	right: 0px;
 }

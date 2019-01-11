@@ -8,13 +8,17 @@ tinmi
 {% endblock %}
 
 {% block content %}
-<h1 style="font-size: 60px">tinmi</h1>
+<div id="logo-wrapper">
+		<h1 id="logo-text">tinmi</h1>
+</div>
 <p>fast and secure messaging</p>
 
 <div id="signup-login-div" >
 <div id="index-login-div">
 <form id="loginform" method="post" action="{% url 'login' %}">
-	<h2>login</h2>
+	<div id="login-wrapper">
+		<h1>login</h1>
+	</div>
 	{% csrf_token %}
 	<p>
 		<label>username</label>
@@ -30,7 +34,10 @@ tinmi
 
 <div id="index-signup-div">
 	<form method="POST" action="{%url 'signup'%}">
-	<h2>sign up</h2>
+		<div id="signup-wrapper">
+			<h1>sign up</h1>
+		</div>
+		<br>
 	{% for error in field.errors %}
 	<p class="errortext" id="form-error">{{ error }}</p>
 	{% endfor %}

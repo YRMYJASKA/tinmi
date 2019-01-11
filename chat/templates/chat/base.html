@@ -20,7 +20,7 @@
 		{%block header%}
 		<div id="header-div">
 			<div id="logo-wrapper">
-				<h1>tinmi</h1>
+				<h1 id="logo-text">tinmi</h1>
 			</div>
 			{% if user.is_authenticated %}
 			<p id="header-help-text">logged in as {{user.username}} (<a href="{%url 'logout' %}">logout</a>)</p>

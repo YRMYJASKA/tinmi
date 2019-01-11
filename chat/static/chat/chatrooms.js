@@ -223,7 +223,7 @@ $(document).ready(function(){
 					$("#add-room-icon").click();
 					var room_title = data.room_title;
 					var roomid = data.room_id;
-					$("#chatroom-list").append('<div class="chatroom-list-elem"> <span class="room-title-title">' + room_title +  '</span> <p hidden class="room-id-hidden">' + roomid + '</p><div class="list-elem-remove">&#10006;</div></div>');
+					$("#chatroom-list").append('<div class="chatroom-list-elem"> <span class="room-list-title">' + room_title +  '</span> <p hidden class="room-id-hidden">' + roomid + '</p><div class="list-elem-remove">&#10006;</div></div>');
 					switch_sockets(roomid, room_title);
 					$("#chatroom-list").scrollTop($("#chatroom-list")[0].scrollHeight);
 				} else {

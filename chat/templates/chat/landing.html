@@ -39,16 +39,20 @@ tinmi
 </div>
 
 <div id="chatview">
-	<h2 id="chat-room-title"></h2>
-	<div id="room-share-btn" class="dropdown"><img src="{%static 'chat/share-icon.png'%}" style="width: 29px; height: 29px;" alt="share"></div>
-	<div id="room-share-content" class="dropdown-content">room id: <mark id="room-id-mark"></mark></div>
+	<div id="chatview-header">
+		<h2 id="chat-room-title"></h2>
+		<div id="room-share-btn" class="dropdown"><img src="{%static 'chat/share-icon.png'%}" style="width: 29px; height: 29px;" alt="share"></div>
+		<div id="room-share-content" class="dropdown-content">room id: <mark id="room-id-mark"></mark></div>
+	</div>
 	<div id="chatbox"></div>
-	<table id="inputarea">
+	<div id="inputarea">
+	<table>
 		<tr>
 			<td style="width: 100%;"><input id="user-msg-input" type="text"/><br/></td>
 			<td><input id="user-msg-submit" type="button" value="send"/></td>
 		</tr>
 	</table>
+	</div>
 	</div>
 </div>
 {%endblock%}
