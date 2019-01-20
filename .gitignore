@@ -4,5 +4,4 @@ staticfiles
 .env
 *.sqlite3
 tinmi/local_settings.py
-*/migrations/*
 *.out
