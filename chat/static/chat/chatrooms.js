@@ -59,7 +59,7 @@ function switch_sockets(roomid, room_title){
 		console.log("Closing previous connection...")
 		chatSocket.close();
 		}
-	chatSocket = new ReconnectingWebSocket(ws_scheme + "://" + window.location.host + '/ws/chat/' + roomid + '/');
+	chatSocket = new WebSocket(ws_scheme + "://" + window.location.host + '/ws/chat/' + roomid + '/');
 	init_socket();
 	$("#chatbox").empty();
 	$("#chat-room-title").text(room_title)
