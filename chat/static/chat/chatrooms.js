@@ -1,4 +1,5 @@
 var chatSocket; // useless for now
+var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
 var last_msg_time = new Date();
 var current_id = "";
 
@@ -58,7 +59,7 @@ function switch_sockets(roomid, room_title){
 		console.log("Closing previous connection...")
 		chatSocket.close();
 		}
-	chatSocket = new WebSocket('wss://' + window.location.host + '/ws/chat/' + roomid + '/');
+	chatSocket = new ReconnectingWebSocket(ws_scheme + "://" + window.location.host + '/ws/chat/' + roomid + '/');
 	init_socket();
 	$("#chatbox").empty();
 	$("#chat-room-title").text(room_title)
