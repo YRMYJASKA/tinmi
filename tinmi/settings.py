@@ -147,6 +147,7 @@ CHANNEL_LAYERS = {
 LOGIN_URL = '/a/login'
 LOGIN_REDIRECT_URL = '/'
 
+CONN_MAX_AGE=1
 
 # If the app is run locally then import local settings
 try:
