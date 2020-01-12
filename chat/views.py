@@ -93,7 +93,6 @@ def leaveroom(request):
     r.save()
     response = {'success': True, 'deleted_room': False}  
     if len(r.users.all()) < 1:
-        print("Room '%s' deleted. No more members" % request.POST.get("room_id"))
         r.delete()
         response['deleted_room']= True
 
