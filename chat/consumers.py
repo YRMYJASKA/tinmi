@@ -54,7 +54,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         data_json = json.loads(text_data)
-        print(data_json)
         message = data_json['message'].strip()
         
         # check if empty message, if so: disregard
