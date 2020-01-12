@@ -38,5 +38,4 @@ class Chatroom(models.Model):
             if self.__class__.objects.filter(pk=newslug).count() is 0:
                 self.room_id = newslug
 
-            print(self.room_owner.username)
         super(Chatroom, self).save(*args, **kwargs)
